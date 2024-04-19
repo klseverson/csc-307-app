@@ -38,6 +38,12 @@ const findUserByName = (name) => {
   );
 };
 
+const findUserByJobName = (name, job) => {
+  return users["users_list"].filter(
+    (user) => user["job"] === job && user["name"] === name
+  );
+};
+
 const findUserById = (id) =>
   users["users_list"].find((user) => user["id"] === id);
 
@@ -45,6 +51,12 @@ const addUser = (user) => {
   users["users_list"].push(user);
   return user;
 };
+
+const findUserIndex = (id) => {
+  let index = users["users_list"].indexOf(findUserById(id));
+  return index;
+};
+
 
 app.use(express.json());
 
@@ -69,12 +81,29 @@ app.get("/users/:id", (req, res) => {
   }
 });
 
+app.get("/users/:name/:job", (req, res) => {
+  const name = req.params["name"];
+  const job = req.params["job"];
+  let result = findUserByJobName(name, job);
+  if (result === undefined) {
+    res.status(404).send("Resource not found.");
+  } else {
+    res.send(result);
+  }
+});
+
 app.post("/users", (req, res) => {
   const userToAdd = req.body;
   addUser(userToAdd);
   res.send();
 });
 
+app.delete("/users/:id", (req, res) => {
+  const id = req.params["id"]; //or req.params.id
+  let index = findUserIndex(id);
+  users["users_list"].splice(index, 1);
+  res.end();
+});
 
 app.listen(port, () => {
   console.log(
