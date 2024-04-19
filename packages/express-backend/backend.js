@@ -3,6 +3,10 @@ import cors from "cors";
 
 const app = express();
 const port = 8000;
+
+app.use(cors());
+app.use(express.json());
+
 const users = {
   users_list: [
     {
@@ -57,9 +61,6 @@ const findUserIndex = (id) => {
   let index = users["users_list"].indexOf(findUserById(id));
   return index;
 };
-
-app.use(cors());
-app.use(express.json());
 
 app.get("/users", (req, res) => {
   const name = req.query.name;
