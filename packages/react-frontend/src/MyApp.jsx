@@ -16,13 +16,18 @@ function MyApp() {
   function updateList(person) {
     postUser(person)
       .then((res) => {
-        if (res.status === 201) {
-          setCharacters([...characters, person]) }
-        else throw "Failed to create"
+        if (res.ok && res.status === 201) {
+          return res.json();
+        } else {
+          throw new Error("User failed to post");
+        }
+      })
+      .then((newPerson) => {
+        setCharacters([...characters, newPerson]);
       })
       .catch((error) => {
         console.log(error);
-      })
+      });
   }
 
   function fetchUsers() {
@@ -37,8 +42,7 @@ function MyApp() {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(person),
-    });
-   
+    })
     return promise;
   }
 
