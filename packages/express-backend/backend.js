@@ -53,13 +53,25 @@ const findUserById = (id) =>
   users["users_list"].find((user) => user["id"] === id);
 
 const addUser = (user) => {
-  users["users_list"].push(user);
+  let id = createUserId(user);
+  let newUser = {id, ...user};
+  users["users_list"].push(newUser);
   return user;
 };
 
 const findUserIndex = (id) => {
   let index = users["users_list"].indexOf(findUserById(id));
   return index;
+};
+
+const createUserId = (user) => {
+  let id = '';
+  // creating 6 integers btwn 0 and 9 for the id
+  for (let i = 0; i < 6; i++) {
+    let randInt = Math.floor(Math.random() * 10);
+    id += randInt;
+  }
+  return id;
 };
 
 app.get("/users", (req, res) => {
