@@ -11,12 +11,12 @@ function MyApp() {
     const id = characters[index]["id"];
     const updated = characters.filter((character, i) => {
       return i !== index;
-    });
+    })
     setCharacters(updated);
 
     // delete on backend
-    const promise = fetch("http://localhost:8000/users/${id}", {
-      method: "DELETE",
+    const promise = fetch(`http://localhost:8000/users/${id}`, {
+      method: "DELETE"
     })
     return promise;
   }

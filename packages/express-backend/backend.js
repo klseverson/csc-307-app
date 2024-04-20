@@ -115,8 +115,8 @@ app.post("/users", (req, res) => {
 app.delete("/users/:id", (req, res) => {
   const id = req.params["id"]; //or req.params.id
   let index = findUserIndex(id);
-  if ( index === -1) {
-    res.status(404).send("Resource not found.");
+  if (index === -1) {
+    res.status(404).send("Resource not found.").end();
   }
   else {
     users["users_list"].splice(index, 1);
