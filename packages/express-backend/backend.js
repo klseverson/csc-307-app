@@ -54,8 +54,8 @@ const findUserById = (id) =>
 
 const addUser = (user) => {
   let id = createUserId(user);
-  let newUser = {id, ...user};
-  users["users_list"].push(newUser);
+  user.id = id;
+  users["users_list"].push(user);
   return user;
 };
 
@@ -64,7 +64,7 @@ const findUserIndex = (id) => {
   return index;
 };
 
-const createUserId = (user) => {
+const createUserId = () => {
   let id = '';
   // creating 6 integers btwn 0 and 9 for the id
   for (let i = 0; i < 6; i++) {
@@ -116,7 +116,7 @@ app.delete("/users/:id", (req, res) => {
   const id = req.params["id"]; //or req.params.id
   let index = findUserIndex(id);
   if (index === -1) {
-    res.status(404).send("Resource not found.").end();
+    res.status(404).send("Resource not found.");
   }
   else {
     users["users_list"].splice(index, 1);
