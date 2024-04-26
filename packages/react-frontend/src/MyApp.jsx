@@ -8,7 +8,7 @@ function MyApp() {
 
   function removeOneCharacter(index) {
     // delete on frontend
-    const id = characters[index]["id"];
+    const id = characters[index]["_id"];
     const updated = characters.filter((character, i) => {
       return i !== index;
     })
@@ -49,7 +49,7 @@ function MyApp() {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(person),
+      body: JSON.stringify({ _id: person.id, ...person }),
     })
     return promise;
   }
